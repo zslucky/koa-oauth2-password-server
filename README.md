@@ -1,4 +1,4 @@
-# koa-oauth2-sso-server
+# koa-oauth2-password-server
 A 'password' grant type based oauth2 authentication server.
 
 ### Usage
