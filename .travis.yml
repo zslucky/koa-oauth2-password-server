@@ -1,0 +1,12 @@
+language: node_js
+node_js:
+  - "6.2.1"
+install:
+  - npm install
+script:
+  - npm run lint
+  - npm run build
+deploy:
+  - provider: heroku
+    skip_cleanup: true
+    api_key: "0432de36-a083-4be6-a920-8e8156203411"
