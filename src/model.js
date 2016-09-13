@@ -22,6 +22,8 @@ model.getAccessToken = (bearerToken, callback) => {
   const token = accessTokens[bearerToken] || false;
 
   if (token) {
+    // Check timeout?
+
     return callback(false, token);
   }
 

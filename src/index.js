@@ -21,7 +21,7 @@ app.use(logger());
 app.use(bodyparser());
 
 app.oauth = oauthserver({
-  model, // 查看https://github.com/thomseddon/node-oauth2-server for specification
+  model, // refer https://github.com/thomseddon/node-oauth2-server for specification
   grants: ['password', 'refresh_token'],
   debug: true,
 });

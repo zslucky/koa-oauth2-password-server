@@ -1,4 +1,6 @@
 # koa-oauth2-password-server
+[![Build Status](https://travis-ci.org/zslucky/koa-oauth2-password-server.svg?branch=master)](https://travis-ci.org/zslucky/koa-oauth2-password-server)
+
 A 'password' grant type based oauth2 authentication server.
 
 ### Usage
