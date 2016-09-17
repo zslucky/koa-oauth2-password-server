@@ -1,29 +1,20 @@
 const oauthConfig = require('./configs/oauth2.config');
+const serverOptions = require('./configs/server.config');
+const cacheService = require('./cache');
 
 const model = module.exports;
 
-const accessTokens = {};
-const refreshTokens = {};
+const ACCESS_PREFIX = 'access.';
+const REFRESH_PREFIX = 'refresh.';
 
 /*
  *
  */
-model.dump = () => {
-  // console.log('## accessTokens ################');
-  // console.log(accessTokens);
-  // console.log('## refreshTokens ################');
-  // console.log(refreshTokens);
-};
-
-/*
- *
- */
-model.getAccessToken = (bearerToken, callback) => {
-  const token = accessTokens[bearerToken] || false;
+model.getAccessToken = async (bearerToken, callback) => {
+  const cacheKey = `${ACCESS_PREFIX}${bearerToken}`;
+  const token = await cacheService.asyncGet(cacheKey);
 
   if (token) {
-    // Check timeout?
-
     return callback(false, token);
   }
 
@@ -33,8 +24,9 @@ model.getAccessToken = (bearerToken, callback) => {
 /*
  *
  */
-model.getRefreshToken = (bearerToken, callback) => {
-  const token = refreshTokens[bearerToken] || false;
+model.getRefreshToken = async (bearerToken, callback) => {
+  const cacheKey = `${REFRESH_PREFIX}${bearerToken}`;
+  const token = await cacheService.asyncGet(cacheKey);
 
   if (token) {
     return callback(false, token);
@@ -69,12 +61,20 @@ model.grantTypeAllowed = (clientId, grantType, callback) => {
  *
  */
 model.saveAccessToken = (accessToken, clientId, expires, userId, callback) => {
-  accessTokens[accessToken] = {
+  const token = {
     accessToken,
     clientId,
     userId,
     expires,
   };
+
+  const cacheKey = `${ACCESS_PREFIX}${accessToken}`;
+
+  cacheService.setex(
+    cacheKey,
+    serverOptions.accessTokenLifetime,
+    JSON.stringify(token)
+  );
 
   return callback(false);
 };
@@ -83,12 +83,20 @@ model.saveAccessToken = (accessToken, clientId, expires, userId, callback) => {
  *
  */
 model.saveRefreshToken = (refreshToken, clientId, expires, userId, callback) => {
-  refreshTokens[refreshToken] = {
+  const token = {
     refreshToken,
     clientId,
     userId,
     expires,
   };
+
+  const cacheKey = `${REFRESH_PREFIX}${refreshToken}`;
+
+  cacheService.setex(
+    cacheKey,
+    serverOptions.refreshTokenLifetime,
+    JSON.stringify(token)
+  );
 
   return callback(false);
 };
