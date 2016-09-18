@@ -8,7 +8,7 @@ const ACCESS_PREFIX = 'access.';
 const REFRESH_PREFIX = 'refresh.';
 
 /*
- *
+ * Get access token
  */
 model.getAccessToken = async (bearerToken, callback) => {
   const cacheKey = `${ACCESS_PREFIX}${bearerToken}`;
@@ -22,7 +22,7 @@ model.getAccessToken = async (bearerToken, callback) => {
 };
 
 /*
- *
+ * Get refresh token
  */
 model.getRefreshToken = async (bearerToken, callback) => {
   const cacheKey = `${REFRESH_PREFIX}${bearerToken}`;
@@ -36,7 +36,7 @@ model.getRefreshToken = async (bearerToken, callback) => {
 };
 
 /*
- *
+ * Get client
  */
 model.getClient = (clientId, clientSecret, callback) => {
   const client = oauthConfig.allowedClients[clientId];
@@ -49,7 +49,7 @@ model.getClient = (clientId, clientSecret, callback) => {
 };
 
 /*
- *
+ * Get corresponding client's allowed grant type.
  */
 model.grantTypeAllowed = (clientId, grantType, callback) => {
   const allowedGrantTypeClients = oauthConfig.authorizedClientIds[grantType];
@@ -58,7 +58,7 @@ model.grantTypeAllowed = (clientId, grantType, callback) => {
 };
 
 /*
- *
+ * Save the access token
  */
 model.saveAccessToken = (accessToken, clientId, expires, userId, callback) => {
   const token = {
@@ -80,7 +80,7 @@ model.saveAccessToken = (accessToken, clientId, expires, userId, callback) => {
 };
 
 /*
- *
+ *  Save the refresh token
  */
 model.saveRefreshToken = (refreshToken, clientId, expires, userId, callback) => {
   const token = {
@@ -102,7 +102,7 @@ model.saveRefreshToken = (refreshToken, clientId, expires, userId, callback) => 
 };
 
 /*
- *
+ *  Get user
  */
 model.getUser = (username, password, callback) => {
   const user = oauthConfig.users[username];
